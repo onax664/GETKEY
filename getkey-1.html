@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get Key</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6FBF8;--card:#FFFFFF;--ink:#12261C;--muted:#4B5F55;--accent:#0A6B41;--line:#BFEBD4;--soft:#EAF7F0}
+@media (prefers-color-scheme: dark){:root{--bg:#0D1712;--card:#14231B;--ink:#EAF5EE;--muted:#A9BDB1;--accent:#3FCB8B;--line:#24523B;--soft:#1B3327}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Be Vietnam Pro',system-ui,sans-serif;padding:24px 20px 48px}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:32px}
+.head{display:flex;align-items:center;gap:16px}
+.logo{width:56px;height:56px;border-radius:16px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:var(--bg)}
+.site{font-size:22px;font-weight:800;color:var(--accent)}
+.sub{font-size:14px;font-weight:500;letter-spacing:1px;color:var(--muted)}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;letter-spacing:3px;color:var(--accent)}
+h1{margin:12px 0;display:flex;align-items:center;gap:12px;font-size:40px;font-weight:800;color:var(--accent)}
+.info{display:flex;align-items:center;gap:10px;font-size:17px;color:var(--muted)}
+.card{width:100%;max-width:320px;margin:0 auto;background:var(--card);border:2px solid var(--line);border-radius:24px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:12px}
+.avt{width:88px;height:88px;border-radius:20px;border:2px dashed var(--line);background:var(--soft);color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+.avt img{width:100%;height:100%;object-fit:cover}
+.game{font-size:22px;font-weight:800}
+.once{display:flex;align-items:center;gap:8px;font-size:16px;color:var(--muted)}
+.btn{width:100%;height:52px;border-radius:14px;border:2px solid var(--accent);background:var(--accent);color:var(--bg);font:700 18px 'Be Vietnam Pro',system-ui,sans-serif;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:hover{filter:brightness(1.1)}
+.keybox{width:100%;border-radius:14px;border:2px dashed var(--accent);background:var(--soft);padding:14px 10px;text-align:center;font-size:21px;font-weight:800;letter-spacing:1px;word-break:break-all;user-select:all}
+.msg{font-size:15px;line-height:1.6;color:var(--muted);text-align:center;margin:0}
+.msg.err{color:#B3261E}
+@media (prefers-color-scheme: dark){.msg.err{color:#FF8A80}}
+.modal{position:fixed;inset:0;background:rgba(5,10,8,.72);display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}
+.panel{width:100%;max-width:520px;max-height:90vh;overflow:auto;background:#1B2236;color:#FFFFFF;border-radius:24px;padding:24px;display:flex;flex-direction:column;gap:20px}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.pt{font-size:20px;font-weight:800;line-height:1.4;margin:0 0 10px}
+.badge{display:inline-block;padding:6px 14px;border-radius:999px;background:#4A3A25;color:#FFC857;font-size:13px;font-weight:800;letter-spacing:.5px}
+.px{flex:none;width:44px;height:44px;border-radius:12px;border:1px solid #2A3350;background:#232C45;color:#FFFFFF;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.sep{height:1px;background:#2A3350}
+.code{background:#0B0E1A;color:#A9BDF0;border-radius:16px;padding:18px;font:15px/1.7 ui-monospace,Menlo,Consolas,monospace;word-break:break-all;user-select:all}
+.cp{align-self:flex-start;height:48px;padding:0 26px;border-radius:999px;border:0;background:#3FCB8B;color:#08150E;font:800 17px 'Be Vietnam Pro',system-ui,sans-serif;cursor:pointer;display:flex;align-items:center;gap:8px}
+.cp:hover{filter:brightness(1.08)}
+.list{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;align-items:center;gap:12px;background:#232C45;border-radius:16px;padding:12px 14px}
+.rn{flex:1;min-width:0}
+.rname{font-weight:700;font-size:16px}
+.rver{font-size:13px;color:#A9B4D0;margin-top:2px}
+.rb{flex:none;height:44px;min-width:96px;padding:0 18px;border-radius:12px;border:0;font:800 15px 'Be Vietnam Pro',system-ui,sans-serif}
+.rb.on{background:#3FCB8B;color:#08150E;cursor:pointer}
+.rb.off{background:#2A3350;color:#FFC857;cursor:not-allowed}
+.back{align-self:flex-start;height:44px;padding:0 18px;border-radius:12px;border:1px solid #2A3350;background:transparent;color:#FFFFFF;font:700 15px 'Be Vietnam Pro',system-ui,sans-serif;cursor:pointer}
+.detail{display:flex;flex-direction:column;gap:16px}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="head">
+<div class="logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2 20 3"/><path d="M16 7l3 3"/><path d="M14 9l2 2"/></svg></div>
+<div><div class="site" id="site"></div><div class="sub">GET KEY</div></div>
+</div>
+
+<div>
+<div class="eyebrow">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="7" width="20" height="11" rx="5"/><path d="M7 10.5v4M5 12.5h4"/></svg>
+CỬA HÀNG KEY
+</div>
+<h1><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M10.8 12.2 20 3"/><path d="M16 7l3 3"/><path d="M14 9l2 2"/></svg>GET KEY</h1>
+<div class="info">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true" style="color:var(--accent)"><circle cx="12" cy="12" r="10"/><path d="M12 11v6M12 7.5v.5"/></svg>
+<span>Vượt <b>1</b> lần để nhận key miễn phí.</span>
+</div>
+</div>
+
+<!-- Màn 1: bắt đầu vượt -->
+<div class="card" id="viewStart">
+<div class="avt" id="avt"></div>
+<div class="game" id="game"></div>
+<div class="once">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3A4 4 0 0 0 11 18.7l1-1"/></svg>
+Vượt 1 lần
+</div>
+<button class="btn" id="goBtn" type="button">Vượt 1 lần</button>
+<button class="btn ghost" id="scriptBtn" type="button">Lấy Script</button>
+<p class="msg err" id="err" hidden></p>
+</div>
+
+<!-- Đang chuyển bước -->
+<div class="card" id="viewWait" hidden>
+<div class="game">Đang vượt...</div>
+<p class="msg" id="waitMsg"></p>
+</div>
+
+<!-- Màn 2: hiện key -->
+<div class="card" id="viewKey" hidden>
+<div class="game">Key của bạn</div>
+<div class="keybox" id="keyText"></div>
+<button class="btn" id="copyBtn" type="button">Sao chép key</button>
+<p class="msg" id="expMsg"></p>
+</div>
+
+</div>
+
+<!-- Bảng script -->
+<div class="modal" id="modal" hidden>
+<div class="panel" role="dialog" aria-modal="true" aria-labelledby="scTitle">
+<div class="ph">
+<div><h2 class="pt" id="scTitle">Chọn script</h2><span class="badge" id="scBadge" hidden></span></div>
+<button class="px" id="scClose" type="button" aria-label="Đóng"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</div>
+<div class="sep"></div>
+<div class="list" id="scList"></div>
+<div class="detail" id="scDetail" hidden>
+<div class="code" id="scCode"></div>
+<button class="cp" id="scCopy" type="button"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg><span id="scCopyLbl">Copy</span></button>
+<button class="back" id="scBack" type="button">Quay lại danh sách</button>
+</div>
+</div>
+</div>
+
+<script>
+var AVATAR_DATA = "data:image/jpeg;base64,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";
+
+// ===== CHỈNH Ở ĐÂY =====
+var CONFIG = {
+  SITE_NAME: "Sever Key",
+  GAME_NAME: "Roblox",
+  AVATAR_URL: AVATAR_DATA,  // ảnh avatar (đã nhúng sẵn), có thể đổi thành link ảnh khác
+  // Danh sách script. status: "on" = dùng được, "maintenance" = hiện chữ Bảo trì và không bấm được
+  SCRIPTS: [
+    {game:"Steal An Egg",   version:"Script V1", status:"on", badge:"CẦN KEY",
+     code:'loadstring(game:HttpGet("[LINK SCRIPT STEAL AN EGG V1]"))()'},
+    {game:"Steal An Egg",   version:"Script V2", status:"maintenance"},
+    {game:"[TÊN GAME 2]",   version:"Script V1", status:"maintenance"},
+    {game:"[TÊN GAME 3]",   version:"Script V1", status:"maintenance"}
+  ],
+  KEY_PREFIX: "TH_MOD_",
+  // Thứ tự vượt: gtraffic -> gtraffic -> link4m
+  STEPS: [
+    "https://gtraffic.io/st?apikey=61fc310c63cf43f5a552d9c57e6052b6&url=",
+    "https://gtraffic.io/st?apikey=61fc310c63cf43f5a552d9c57e6052b6&url=",
+    "https://link4m.co/st?api=6a6060efd9be580bf777cce8&url="
+  ],
+  MIN_SECONDS: 8,          // mỗi bước vượt nhanh hơn số giây này sẽ bị coi là bỏ qua
+  MIN_TOTAL_SECONDS: 120,  // tổng thời gian từ lúc bấm Vượt 1 lần đến khi xong; sớm hơn sẽ báo lỗi
+  SESSION_MINUTES: 30,     // thời gian tối đa để vượt xong cả 3 bước
+  DEMO: false              // true = chạy thử, không mở link vượt thật
+};
+// =========================
+
+var STORE = "getkey_state_v2";
+function $(id){return document.getElementById(id)}
+function load(){try{return JSON.parse(localStorage.getItem(STORE)||"null")}catch(e){return null}}
+function save(s){try{localStorage.setItem(STORE,JSON.stringify(s))}catch(e){}}
+function clearState(){try{localStorage.removeItem(STORE)}catch(e){}}
+function rnd(n){var a=new Uint32Array(n),s="";crypto.getRandomValues(a);for(var i=0;i<n;i++)s+=a[i]%10;return s}
+function token(){var a=new Uint8Array(16),s="";crypto.getRandomValues(a);a.forEach(function(b){s+=("0"+b.toString(16)).slice(-2)});return s}
+function showError(t){var e=$("err");e.textContent=t;e.hidden=false}
+function base(){return location.origin+location.pathname}
+
+function showWait(n){
+  $("viewStart").hidden=true;$("viewWait").hidden=false;
+  $("waitMsg").textContent="Đang chuyển sang nhiệm vụ "+n+"/"+CONFIG.STEPS.length+"...";
+}
+
+// Mở bước vượt thứ n; vượt xong sẽ quay về trang này kèm ?s=n&k=token
+function go(n,s){
+  s.step=n;s.t0=Date.now();save(s);
+  showWait(n);
+  var back=base()+"?s="+n+"&k="+s.token;
+  if(CONFIG.DEMO){setTimeout(function(){location.href=back},CONFIG.MIN_SECONDS*1000+500);return}
+  setTimeout(function(){location.href=CONFIG.STEPS[n-1]+encodeURIComponent(back)},800);
+}
+
+// Key chỉ hiện một lần: không lưu key ở đâu cả, tải lại trang là mất
+function showKey(key){
+  $("viewStart").hidden=true;$("viewWait").hidden=true;$("viewKey").hidden=false;
+  $("keyText").textContent=key;
+  $("expMsg").textContent="Key chỉ hiển thị một lần và dùng được một lần. Hãy sao chép ngay, tải lại trang là mất.";
+}
+
+function init(){
+  $("site").textContent=CONFIG.SITE_NAME;
+  $("game").textContent=CONFIG.GAME_NAME;
+  var av=$("avt");
+  if(CONFIG.AVATAR_URL){var im=new Image();im.src=CONFIG.AVATAR_URL;im.alt=CONFIG.GAME_NAME;av.appendChild(im)}
+  else av.textContent="[AVT]";
+
+  var q=new URLSearchParams(location.search);
+  var n=parseInt(q.get("s")||"0",10),k=q.get("k");
+  var s=load();
+
+  if(n&&k){
+    history.replaceState(null,"",location.pathname);
+    if(!s||s.token!==k||s.step!==n||Date.now()-s.created>CONFIG.SESSION_MINUTES*60000){
+      clearState();showError("Phiên vượt không hợp lệ. Hãy vượt lại từ đầu.");return}
+    if((Date.now()-s.t0)/1000<CONFIG.MIN_SECONDS){
+      clearState();showError("Bạn vượt quá nhanh nên không hợp lệ. Hãy vượt lại.");return}
+    if(n<CONFIG.STEPS.length){go(n+1,s);return}
+    if((Date.now()-s.created)/1000<CONFIG.MIN_TOTAL_SECONDS){
+      clearState();showError("Lỗi: bạn vượt quá nhanh, phải mất ít nhất "+CONFIG.MIN_TOTAL_SECONDS+" giây. Hãy vượt lại.");return}
+    save({done:true});
+    showKey(CONFIG.KEY_PREFIX+rnd(8));
+    return;
+  }
+  if(s&&s.done)showError("Key lần trước đã hiển thị và sẽ không hiện lại. Hãy vượt lại để lấy key mới.");
+}
+
+$("goBtn").onclick=function(){
+  go(1,{token:token(),created:Date.now()});
+};
+
+$("copyBtn").onclick=function(){
+  var k=$("keyText").textContent,b=$("copyBtn");
+  function ok(){b.textContent="Đã sao chép";setTimeout(function(){b.textContent="Sao chép key"},1800)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(k).then(ok,function(){})}
+  else{var r=document.createRange();r.selectNodeContents($("keyText"));var g=getSelection();g.removeAllRanges();g.addRange(r);try{document.execCommand("copy");ok()}catch(e){}}
+};
+
+var lastFocus;
+function renderList(){
+  var box=$("scList");box.textContent="";
+  CONFIG.SCRIPTS.forEach(function(sc,i){
+    var row=document.createElement("div");row.className="row";
+    var left=document.createElement("div");left.className="rn";
+    var a=document.createElement("div");a.className="rname";a.textContent=sc.game;
+    var b=document.createElement("div");b.className="rver";b.textContent=sc.version;
+    left.appendChild(a);left.appendChild(b);
+    var btn=document.createElement("button");btn.type="button";
+    if(sc.status==="on"){btn.className="rb on";btn.textContent="Lấy";btn.onclick=function(){showDetail(i)}}
+    else{btn.className="rb off";btn.textContent="Bảo trì";btn.disabled=true}
+    row.appendChild(left);row.appendChild(btn);box.appendChild(row);
+  });
+}
+function showList(){
+  $("scTitle").textContent="Chọn script";$("scBadge").hidden=true;
+  $("scDetail").hidden=true;$("scList").hidden=false;renderList();
+}
+function showDetail(i){
+  var sc=CONFIG.SCRIPTS[i];
+  $("scTitle").textContent=sc.game+" – "+sc.version;
+  $("scBadge").textContent=sc.badge||"";$("scBadge").hidden=!sc.badge;
+  $("scCode").textContent=sc.code;
+  $("scList").hidden=true;$("scDetail").hidden=false;
+  $("scBack").focus();
+}
+function openScript(){lastFocus=document.activeElement;showList();$("modal").hidden=false;$("scClose").focus()}
+function closeScript(){$("modal").hidden=true;if(lastFocus)lastFocus.focus()}
+$("scriptBtn").onclick=openScript;
+$("scClose").onclick=closeScript;
+$("scBack").onclick=showList;
+$("modal").onclick=function(e){if(e.target===this)closeScript()};
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!$("modal").hidden)closeScript()});
+$("scCopy").onclick=function(){
+  var t=$("scCode").textContent,l=$("scCopyLbl");
+  function ok(){l.textContent="Đã copy";setTimeout(function(){l.textContent="Copy"},1800)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(ok,function(){})}
+  else{var r=document.createRange();r.selectNodeContents($("scCode"));var g=getSelection();g.removeAllRanges();g.addRange(r);try{document.execCommand("copy");ok()}catch(e){}}
+};
+
+init();
+</script>
+</body>
+</html>
